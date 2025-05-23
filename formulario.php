@@ -1,4 +1,22 @@
 <!-- <?php include('conexion.php'); ?>-->
+
+
+
+<?php
+require 'database.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["create"])) {
+
+        if (!empty($_POST["nombre"]) && !empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["ciudad"])) {
+            createpersona($_POST["nombre"], $_POST["edad"]);
+        } else {
+            echo "<script>alert('todos los datos son requeridos');</script>";
+        }
+}
+
+$personas = getpersonas();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,14 +42,13 @@
         </p>
         <input type="submit" value="enviar"/>
     </form>
-   <!-- <thead>
-        <th>dni</th>
-        <th>nombre</th>
-        <th>apellidos</th>
-        <th>ciudad</th>
-    </thead>
-    <tbody>
-        <?=cargartabla($conexion) ?>
-    </tbody> -->
+     <?php foreach ($personas as $persona): ?>
+                <tr>
+                    <td><?php echo $persona["dni"]; ?></td>
+                    <td><?php echo $persona["nombre"]; ?></td>
+                    <td><?php echo $persona["apellidos"]; ?></td>
+                    <td><?php echo $persona["ciudad"]; ?></td>
+                </tr>
+                <?php endforeach; ?>
 </body>
 </html>
